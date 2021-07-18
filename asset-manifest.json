@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/dataStore/static/css/main.c3be9743.chunk.css",
+    "main.js": "/dataStore/static/js/main.60b133c4.chunk.js",
+    "main.js.map": "/dataStore/static/js/main.60b133c4.chunk.js.map",
+    "runtime-main.js": "/dataStore/static/js/runtime-main.44f093d5.js",
+    "runtime-main.js.map": "/dataStore/static/js/runtime-main.44f093d5.js.map",
+    "static/css/2.38f00050.chunk.css": "/dataStore/static/css/2.38f00050.chunk.css",
+    "static/js/2.0814bcee.chunk.js": "/dataStore/static/js/2.0814bcee.chunk.js",
+    "static/js/2.0814bcee.chunk.js.map": "/dataStore/static/js/2.0814bcee.chunk.js.map",
+    "static/js/3.f7480c8d.chunk.js": "/dataStore/static/js/3.f7480c8d.chunk.js",
+    "static/js/3.f7480c8d.chunk.js.map": "/dataStore/static/js/3.f7480c8d.chunk.js.map",
+    "index.html": "/dataStore/index.html",
+    "static/css/2.38f00050.chunk.css.map": "/dataStore/static/css/2.38f00050.chunk.css.map",
+    "static/css/main.c3be9743.chunk.css.map": "/dataStore/static/css/main.c3be9743.chunk.css.map",
+    "static/js/2.0814bcee.chunk.js.LICENSE.txt": "/dataStore/static/js/2.0814bcee.chunk.js.LICENSE.txt",
+    "static/media/font-awesome.css": "/dataStore/static/media/fontawesome-webfont.f691f37e.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.44f093d5.js",
+    "static/css/2.38f00050.chunk.css",
+    "static/js/2.0814bcee.chunk.js",
+    "static/css/main.c3be9743.chunk.css",
+    "static/js/main.60b133c4.chunk.js"
+  ]
+}
