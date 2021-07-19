@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, FormGroup, Label} from 'reactstrap';
+import {Breadcrumb, BreadcrumbItem, Button, Label, Collapse, Input} from 'reactstrap';
 import {Link} from 'react-router-dom';
-import {LocalForm, Control} from 'react-redux-form';
+import {LocalForm} from 'react-redux-form';
 import {Stagger} from 'react-animation-components';
 
 import {Loading} from './Loading';
@@ -14,29 +14,42 @@ class Detail extends Component {
         this.state = {
             images: this.props.image,
             videos: this.props.video,
-            imageModalOpen: false,
-            videoModalOpen: false,
+            category: this.props.path,
             path: "/"+this.props.path,
             name: this.props.name,
+            isImageOpen: false,
+            isVideoOpen: false
         }
-        this.toggleImageModal = this.toggleImageModal.bind(this);
-        this.toggleVideoModal = this.toggleVideoModal.bind(this);
         this.handleImageSubmit = this.handleImageSubmit.bind(this);
         this.handleVideoSubmit = this.handleVideoSubmit.bind(this);
         this.handleImgDelete = this.handleImgDelete.bind(this);
         this.handleVidDelete = this.handleVidDelete.bind(this);
+        this.toggleImage = this.toggleImage.bind(this);
+        this.toggleVideo = this.toggleVideo.bind(this);
     }
 
-    handleImageSubmit(values) {
-        this.toggleImageModal();
-        alert("New Image: "+JSON.stringify(values));
-        this.props.postImage(values.name, values.category, values.link);
+    toggleImage() {
+        this.setState({
+            isImageOpen: !this.state.isImageOpen
+        });
     }
 
-    handleVideoSubmit(values) {
-        this.toggleVideoModal();
-        console.log("New Video: "+JSON.stringify(values));
-        this.props.postVideo(values.name, values.category, values.link);
+    toggleVideo() {
+        this.setState({
+            isVideoOpen: !this.state.isVideoOpen
+        });
+    }
+
+    handleImageSubmit(event) {
+        //this.toggleImageModal();
+        console.log(JSON.stringify(this.state.name, this.image.value, this.state.category));
+        this.props.postImage(this.state.name, this.state.category, this.image.value);
+    }
+
+    handleVideoSubmit(event) {
+        //this.toggleVideoModal();
+        console.log(JSON.stringify(this.state.name, this.link.value, this.state.category));
+        this.props.postVideo(this.state.name, this.state.category, this.link.value);
     }
 
     toggleImageModal() {
@@ -75,14 +88,14 @@ class Detail extends Component {
         const images = this.state.images.map((image) => {
             return(
             <div className="gallery">
-                <img src={image.image} alt={image.name} />
+                <img className="img-fluid" src={image.image} alt={image.name} />
             </div>
             );
         })
 
         const videos = this.state.videos.map((video) => {
             return(
-                <div className="col-12 col-sm-3 m-1">
+                <div className="">
                     <iframe src={video.link} width="960" height="640" allowFullScreen title={video.name} /><br />
                     <div className="align-center">
                         <Button onClick={()=>this.handleVidDelete(video)}><span><i className="fa fa-trash-o" color="primary" /></span></Button>
@@ -127,7 +140,18 @@ class Detail extends Component {
                                 <h3>Images</h3>
                             </div>
                             <div className="col-12 col-sm offset-sm-2">
-                                <Button onClick={this.toggleImageModal}><span className="fa fa-plus" /></Button>
+                                <Button onClick={this.toggleImage}>Add Images</Button>
+                                <Collapse isOpen={this.state.isOpen}>
+                                    <LocalForm onSubmit={(values) => this.handleImageSubmit(values)}>
+                                        <div className="row">
+                                            <Label htmlFor="image"><h3>Add Image:</h3></Label>
+                                            <Input type="text" id="image" name="image" innerRef={(input) => this.image = input} />
+                                            <div className="col">
+                                                <Button type="submit" value="submit">Submit</Button>
+                                            </div>
+                                        </div>
+                                    </LocalForm>
+                                </Collapse>
                             </div>
                         </div>
                         <div className="row">
@@ -141,59 +165,24 @@ class Detail extends Component {
                                 <h3>Videos</h3>
                             </div>
                             <div className="col-12 col-sm offset-sm-3">
-                                <Button onClick={this.toggleVideoModal}><span className="fa fa-plus" /></Button>
+                                <Button onClick={this.toggleVideo}>Add Videos</Button>
+                                <Collapse isOpen={this.state.isVideoOpen}>
+                                    <LocalForm onSubmit={(values) => this.handleVideoSubmit(values)}>
+                                         <div className="row">
+                                            <Label htmlFor="link"><h3>Add Videos:</h3></Label>
+                                            <Input type="text" id="link" name="link" innerRef={(input) => this.link = input} />
+                                            <div className="col">
+                                                <Button type="submit" value="submit">Submit</Button>
+                                            </div>
+                                        </div>
+                                    </LocalForm>
+                                </Collapse>
                             </div>
                         </div>
                         <div className="row">
                             {videos}
                         </div>
                     </div>
-                    <Modal isOpen={this.state.imageModalOpen} toggle={this.imageModalOpen}>
-                        <ModalHeader toggle={this.toggleImageModal}>Add Images</ModalHeader>
-                        <ModalBody>
-                            <LocalForm onSubmit={(values)=>this.handleImageSubmit(values)}>
-                                <FormGroup>
-                                    <Label htmlFor="name">Name</Label>
-                                    <Control.Text model=".name" id="imgName" name="imgName"
-                                        placeholder="Name" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="category">Category</Label>
-                                    <Control.Text model=".category" id="imgCat" name="imgCat"
-                                        placeholder="Category" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="image">Link</Label>
-                                    <Control.Text model=".image" id="imgLink" name="imgLink"
-                                        placeholder="Image" />
-                                </FormGroup>
-                                <Button type="submit" value="submit" color="info">Submit</Button>
-                            </LocalForm>
-                        </ModalBody>
-                    </Modal>
-                    <Modal isOpen={this.state.videoModalOpen} toggle={this.videoModalOpen}>
-                        <ModalHeader toggle={this.toggleVideoModal}>Add Videos</ModalHeader>
-                        <ModalBody>
-                            <LocalForm onSubmit={(values) => this.handleVideoSubmit(values)}>
-                                <FormGroup>
-                                    <Label htmlFor="name">Name</Label>
-                                    <Control.Text model=".name" id="vidName" name="vidName"
-                                        placeholder="Name" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="category">Category</Label>
-                                    <Control.Text model=".category" id="vidCat" name="vidCat"
-                                    placeholder="Category" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="link">Link</Label>
-                                    <Control.Text model=".link" id="vidLink" name="vidLink"
-                                    placeholder="Link" />
-                                </FormGroup>
-                                <Button type="submit" value="submit" color="info">Submit</Button>
-                            </LocalForm>
-                        </ModalBody>
-                    </Modal>
                 </div>
             );
         }

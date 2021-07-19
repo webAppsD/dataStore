@@ -1,5 +1,5 @@
 import * as ActionTypes from './ActionTypes';
-import {auth, firestore, fireauth, firebasestore} from '../firebase/firebase';
+import {auth, firestore} from '../firebase/firebase';
 
 export const addImage = (image) => ({
     type: ActionTypes.ADD_IMAGE,
